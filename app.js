@@ -5,6 +5,11 @@ const ExpressError = require("./expressError")
 
 app.use(express.json())
 app.use("/items", itemsRoutes)
+app.use(express.static(__dirname + '/public'));
+
+app.get("/", function(req, res) {
+    res.render("index");
+});
 
 /**Error handler if route doesn't exist or anything else */
 app.use(function(req, res, next) {
