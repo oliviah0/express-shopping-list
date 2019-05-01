@@ -62,5 +62,3 @@ describe("DELETE /items/:name", function() {
       expect(response.body).toEqual({ message: "Deleted" });
     });
   });
-
-
