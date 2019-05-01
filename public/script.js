@@ -1,4 +1,8 @@
 
+$(document).ready(function() {
+    getAllItems()
+});
+
 $("form").on("submit", (e) => {
     e.preventDefault();
     let itemName = $("#name").val();
@@ -17,9 +21,32 @@ $("form").on("submit", (e) => {
 });
 
 function success() {
-    console.log("post successful")
+    console.log("request successful")
+    $("#cart").html("")
+    getAllItems()
 }
 
 async function getAllItems() {
-    let items = await $.get("http://localhost:3000/items")
+    let $cart = $("#cart")
+    let list = await $.get("http://localhost:3000/items")
+    list.items.forEach(item => {
+        let toAppend = `<div>
+                            <strong>Name:</strong> ${item.name}
+                            <br>
+                            <strong>Price:</strong> ${item.price}
+                            <br>
+                            <button class="del" id="${item.name}">delete</button>
+                        </div>`
+        $cart.append(toAppend)
+    });
 }
+
+$("#cart").on("click", ".del", (e) => {
+    e.preventDefault();
+    let name = $(e.target).attr("id")
+    $.ajax({
+        type: "DELETE",
+        url: `http://localhost:3000/items/${name}`,
+        success: success
+    })
+});
