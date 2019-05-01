@@ -47,7 +47,7 @@ router.delete("/:name", function (req, res) {
     let foundItem = items[foundItemIndex]
 
     items.splice(foundItemIndex, 1)
-    res.json({ deleted: foundItem })
+    res.json({ message: "Deleted" })
 
 })
 
